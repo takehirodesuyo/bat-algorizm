@@ -2,8 +2,8 @@
 CC            = gcc
 CFLAGS        = -O2 -g -Wno-unused-result #-Wall
 LIBS          = -lm
-OBJS1         = myfopen.o crane_3dmodel.o neural_network.o genetic_algorithm.o crane_control.o crane-ga01.o
-PROGRAM1      = crane-ga01
+# OBJS1         = myfopen.o crane_3dmodel.o neural_network.o genetic_algorithm.o crane_control.o crane-ga01.o
+# PROGRAM1      = crane-ga01
 OBJS2         = myfopen.o crane_3dmodel.o neural_network.o cuckoo_search.o crane_control.o crane-cs01.o
 PROGRAM2      = crane-cs01
 # OBJS3         = myfopen.o crane_3dmodel.o neural_network.o firefly_algorithm.o crane_control.o crane-fa01.o

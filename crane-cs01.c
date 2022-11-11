@@ -50,7 +50,7 @@ int main(void)
  //Evolution simulation start
  //initial connection weights
     for(ind=0;ind<IND_SIZE;ind++) {
-      //init weights
+      //init weights　ここでNS全体になる
       CS[ind]=rand_w();
       NCw=convert_weight(CS[ind]);
       // Control start

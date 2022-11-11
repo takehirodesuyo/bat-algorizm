@@ -6,9 +6,9 @@
 #define BETA2 1.5         //scaling index 
 #define XMAX 1.0
 
-// individual of cuckoo(NC)
+// individual of cuckoo(NC)　INDIVIDUALという名前の構造体ここに必要な値変数を描く
 typedef struct{ 
            float whid[I_MAX][J_MAX]; 
            float wout[J_MAX][K_MAX]; 
     float E;
-}INDIVIDUAL;git
+}INDIVIDUAL;

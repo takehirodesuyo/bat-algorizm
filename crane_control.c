@@ -83,7 +83,7 @@ float crane_control_simulation_data(NEURON_w NCw)
     rk.x2=0.0;
     rk.x3=R*sin(THETA)+Leng*sin(BETA)*sin(THETA+ALPHA);
     rk.x4=0.0;
-    rk.x5=Ht-Leng*cos(BETA)
+    rk.x5=Ht-Leng*cos(BETA);
     rk.x6=0.0;
     Eeb=0.0;
     fprintf(fp1, "%f %f %f %f %f %f %f %f¥n", t, rk.x1, rk.x2, rk.x3, rk.x4,
@@ -96,9 +96,9 @@ float crane_control_simulation_data(NEURON_w NCw)
         NCi.x_i[2] =  Yref - rk.x3;
         NCi.x_i[3] = dYref - rk.x4;
         // Neural network controller
-        NC0 = network_controller(NCi, NCw);
+        NCo = neural_network(NCi, NCw);
         // from centrifugal force
-        Dst2 = rk.x1*rk.x1+rk.x3*rk.x3;
+        Dst = rk.x1*rk.x1+rk.x3*rk.x3;
         Vel2 = rk.x2*rk.x2+rk.x4*rk.x4;
         // tension force divided by rope length
         // 3D model

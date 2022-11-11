@@ -28,7 +28,7 @@ float sigma(float beta)
              return pow(nume/denom,1.0/beta);
 }
 
-//initial weights
+//initial weights　　型が構造体　　initがNC１コ　rand_wが全体
 INDIVIDUAL rand_w(void)
 {
     int i,j,k;
