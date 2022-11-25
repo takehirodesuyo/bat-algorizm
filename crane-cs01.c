@@ -58,15 +58,14 @@ int main(void)
   } // end individual
   // selection (ranking method)
   for(iteration=1;iteration<ITERATION;iteration++) {
+
+
+    
     //Sceduled CS ここからアルゴリズムを描く
-
-
-
-
-
-
+    sort(CS);
     fprintf(fp1, "%.12f\n", CS[0].E);
-    //表示している部分 コンソール
+
+    //表示している部分コンソールに
     printf("iteration=%d E[0]=%.12f\n", iteration, CS[0].E);
     }//end iteration
     //save conection weights
