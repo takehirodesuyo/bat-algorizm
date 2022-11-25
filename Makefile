@@ -1,37 +1,19 @@
 # 定義済みマクロの再定義
 CC            = gcc
-CFLAGS        = -O2 -g -Wno-unused-result #-Wall
+CFLAGS        = -O2 -g -Wno-unused-result
 LIBS          = -lm
-# OBJS1         = myfopen.o crane_3dmodel.o neural_network.o genetic_algorithm.o crane_control.o crane-ga01.o
-# PROGRAM1      = crane-ga01
-OBJS2         = myfopen.o crane_3dmodel.o neural_network.o cuckoo_search.o crane_control.o crane-cs01.o
-PROGRAM2      = crane-cs01
-# OBJS3         = myfopen.o crane_3dmodel.o neural_network.o firefly_algorithm.o crane_control.o crane-fa01.o
-# PROGRAM3      = crane-fa01
-#OBJS3         = myfopen.o runge_kutta.o neural_network.o genetic_algorithm.o crane-nc02.o
-#PROGRAM3      = crane-nc02
-#OBJS4         = crane-verf01.o 
-#PROGRAM4      = crane-verf01
-#OBJS5         = crane-verf02.o 
-#PROGRAM5      = crane-verf02
+OBJS          = myfopen.o crane_3dmodel.o neural_network.o cuckoo_search.o crane_control.o crane-cs01.o
+PROGRAM       = crane-cs01
 
 .PHONY: all
-all:	$(PROGRAM1) $(PROGRAM2) $(PROGRAM3)
+all:	$(PROGRAM)
 
 # サフィックスルール適用対象の拡張子の定義
 .SUFFIXES: .c .o
 
 # プライマリターゲット
-$(PROGRAM1): $(OBJS1)
-	$(CC) -o $(PROGRAM1) $^ $(LIBS)
-$(PROGRAM2): $(OBJS2)
-	$(CC) -o $(PROGRAM2) $^ $(LIBS)
-$(PROGRAM3): $(OBJS3)
-	$(CC) -o $(PROGRAM3) $^ $(LIBS)
-#$(PROGRAM4): $(OBJS4)
-#	$(CC) -o $(PROGRAM4) $^ $(LIBS)
-#$(PROGRAM5): $(OBJS5)
-#	$(CC) -o $(PROGRAM5) $^ $(LIBS)
+$(PROGRAM): $(OBJS)
+	$(CC) -o $(PROGRAM) $^ $(LIBS)
 
 # サフィックスルール
 .c.o:
@@ -40,7 +22,7 @@ $(PROGRAM3): $(OBJS3)
 # ファイル削除用ターゲット
 .PHONY: clean
 clean:
-	$(RM) $(PROGRAM1) $(OBJS1) $(PROGRAM2) $(OBJS2) $(PROGRAM3) $(OBJS3) $(PROGRAM4) $(OBJS4) $(PROGRAM5) $(OBJS5) *.dat
+	$(RM) $(PROGRAM) $(OBJS) *.dat
 
 # ヘッダファイルの依存関係
 crane_3dmodel.o: crane.h

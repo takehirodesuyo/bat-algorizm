@@ -57,36 +57,16 @@ int main(void)
       CS[ind].E=crane_control_simulation(NCw);
   } // end individual
   // selection (ranking method)
-  sort(CS);
   for(iteration=1;iteration<ITERATION;iteration++) {
-    //Sceduled CS
-    if(iteration<=2000)
-            beta=0.5;
-    else if(iteration<=4000)
-      beta=1.0;
-    else if(iteration<=6000)
-      beta=1.5;
-    else
-      beta=2.0;
-    //brood parasitism
-    r1=(int)drand48() % IND_SIZE;
-    r2=(int)(r1+(drand48()/(IND_SIZE-1)+1))%IND_SIZE;
-    new_CS=levy_flight(CS[r1],alpha,beta);
-    NCw=convert_weight(new_CS);
-    new_CS.E=crane_control_simulation(NCw);
-    if(new_CS.E<CS[r2].E){
-      tmp=CS[r2];
-      CS[r2]=new_CS;
-      new_CS=tmp;
-    }
-    //abondan
-    for(ind=(int)(IND_SIZE*(1-ABA_RATE));ind<IND_SIZE;ind++){
-      CS[ind]=rand_w();
-      NCw=convert_weight(CS[ind]);
-      CS[ind].E=crane_control_simulation(NCw);
-    }
-    sort(CS);
+    //Sceduled CS ここからアルゴリズムを描く
+
+
+
+
+
+
     fprintf(fp1, "%.12f\n", CS[0].E);
+    //表示している部分 コンソール
     printf("iteration=%d E[0]=%.12f\n", iteration, CS[0].E);
     }//end iteration
     //save conection weights

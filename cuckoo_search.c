@@ -49,7 +49,7 @@ INDIVIDUAL rand_w(void)
                 return init;
 }
 
-//selection(ranking method)
+//selection(ranking method) kakkoのアルゴリズム
 void sort(INDIVIDUAL kotai[IND_SIZE])
 {
           int i,j,k,o,m;
