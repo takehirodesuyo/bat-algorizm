@@ -12,7 +12,7 @@
 
 #include "crane.h"
 #include "nn.h"
-#include "cuckoo.h"
+#include "bat.h"
 
 //my file structure(myfopen.c)
 extern FILE *myfopen(char *fname, char *mode);
@@ -60,7 +60,7 @@ int main(void)
   for(iteration=1;iteration<ITERATION;iteration++) {
 
 
-    
+
     //Sceduled CS ここからアルゴリズムを描く
     sort(CS);
     fprintf(fp1, "%.12f\n", CS[0].E);

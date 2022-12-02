@@ -11,7 +11,7 @@
 
 #include "crane.h" 
 #include "nn.h" 
-#include "cuckoo.h"
+#include "bat.h"
 
 //normal random number
 float rand_n(void)
