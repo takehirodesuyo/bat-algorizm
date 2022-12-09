@@ -7,12 +7,11 @@
 #define XMAX 1.0
 
 // individual of cuckoo(NC)　INDIVIDUALという名前の構造体ここに必要な値変数を描く
-//最終的な評価値
 typedef struct{ 
-           float whid[I_MAX][J_MAX]; 
-           float wout[J_MAX][K_MAX]; 
+           float whid[I_MAX][J_MAX]; //中間層重み
+           float wout[J_MAX][K_MAX]; //出力層重み
            //評価
-    float E;
+    float E; //最終の評価値
 }INDIVIDUAL;
 
 // #define mM 1300

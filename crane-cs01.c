@@ -26,6 +26,8 @@ extern INDIVIDUAL rand_w(void);
 // selection (ranking method)(cuckoo_search.c)
 extern void sort(INDIVIDUAL kotai[]);
 
+extern void bat_algorithm(INDIVIDUAL BAT NC1, BAT NC2, BAT best_NC, int generation, double aveLoud,float Pulse_r1);
+
 //levy flight(cuckoo_search.c)
 extern INDIVIDUAL levy_flight(INDIVIDUAL CS_r1, float alpha, float beta);
 

@@ -1,7 +1,8 @@
-BAT bat_algorithm(BAT NC1, BAT NC2, BAT best_NC, int generation, double aveLoud,float Pulse_r1)
+INDIVIDUAL bat_algorithm(BAT NC1, BAT NC2, BAT best_NC, int generation, double aveLoud,float Pulse_r1)
 {
 	int i, j, k;
-	BAT new_NC1, new_NC2, tmp_NC;
+	// BAT new_NC1, new_NC2, tmp_NC;
+	INDIVIDUAL new_bat
 	
     //最良のコウモリ
 	//NC1.freq=(Freq_Max-Freq_Min);
