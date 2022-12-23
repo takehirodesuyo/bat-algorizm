@@ -1,9 +1,4 @@
-/*
-######################################## 
-### Cuckoo search method
-### CS method  
-### programmed by nakazono. [2021/09/17] 
-######################################## */
+// すべての関数を定義
 
 #include<stdio.h> 
 #include<stdlib.h> 
@@ -37,12 +32,12 @@ INDIVIDUAL rand_w(void)
     for(j=0;j<J_MAX;j++){
         for(i=0;i<I_MAX;i++){
 
-    init.whid[i][j]=(float)(drand48()*(2.0*XMAX)-XMAX);
+    init.pji[J][I]=(float)(drand48()*(2.0*XMAX)-XMAX);
                           }
                 }
                 for(k=0;k<K_MAX;k++){
                          for(j=0;j<J_MAX;j++){
-    init.whid[i][k]=(float)(drand48()*(2.0*XMAX)-XMAX);
+    init.pkj[K][J]=(float)(drand48()*(2.0*XMAX)-XMAX);
                           }
                 }
 
@@ -80,7 +75,7 @@ INDIVIDUAL levy_flight(INDIVIDUAL CS_r1,float alpha,float beta)
             v = rand_n();
             s = u / pow(fabs(v),1/beta);
 
-new_CS.whid[i][j]=CS_r1.whid[i][j]+alpha*s;
+            new_CS.pji[J][I]=CS_r1.pji[J][I]+alpha*s;
         }
     }
     for(k=0;k<K_MAX;k++){
@@ -89,11 +84,12 @@ new_CS.whid[i][j]=CS_r1.whid[i][j]+alpha*s;
             v = rand_n();
             s = u / pow(fabs(v),1/beta);
 
-new_CS.wout[j][k]=CS_r1.wout[j][k]+alpha*s;
+            new_CS.pkj[K][J]=CS_r1.pkj[K][J]+alpha*s;
         }
     }
     return new_CS;
 }
+
 //convert CS into NC weights
 NEURON_w convert_weight(INDIVIDUAL CS)
 {
@@ -101,98 +97,101 @@ NEURON_w convert_weight(INDIVIDUAL CS)
     NEURON_w NCw;
     for(j=0;j<J_MAX;j++)
              for(i=0;i<I_MAX;i++)
-                       NCw.n_ij[i][j]=CS.whid[i][j];
+                       NCw.n_ij[i][j]=CS.pji[J][I];
     for(j=0;j<J_MAX;j++){
              for(k=0;k<K_MAX;k++){
-                       NCw.n_jk[j][k]=CS.wout[j][k];
+                       NCw.n_jk[j][k]=CS.pkj[K][J];
              }
     }
     return NCw;
 }
 
-INDIVIDUAL bat_algorithm(BAT NC1, BAT NC2, BAT best_NC, int generation, double aveLoud,float Pulse_r1)
+//最良,良い,ランダムの方向に移動するコウモリ
+INDIVIDUAL bat_algorithm(int generation, double aveLoud,float Pulse_r1)
 {
 	int i, j, k;
-	// BAT new_NC1, new_NC2, tmp_NC;
-	INDIVIDUAL new_bat
-	
+	INDIVIDUAL new_NC1, new_NC2, tmp_NC;
     //最良のコウモリ
-	//NC1.freq=(Freq_Max-Freq_Min);
-	NC1.freq=(Freq_Max-Freq_Min)*rand()/RAND_MAX;
+	new_NC1.freq=(Freq_Max-Freq_Min)*rand()/RAND_MAX;
+    //入力層から中間層
 	for(j=0;j<J;j++) {
 		for(i=0;i<I;i++) {
-			NC1.vji[j][i]+=(best_NC.pji[j][i]-NC1.pji[j][i])*NC1.freq;
-			NC1.pji[j][i]+=NC1.vji[j][i];
+			new_NC1.vji[j][i]+=(new_NC2.pji[j][i]-new_NC2.pji[j][i])*new_NC1.freq;
+			new_NC1.pji[j][i]+=new_NC1.vji[j][i];
 			//NC1.freq=*(best_NC.freq);
 			
 		}
 	}
+    //中間層から出力層
 	for(k=0;k<K;k++) {
 		for(j=0;j<J;j++) {
-			NC1.vkj[k][j]+=(best_NC.pkj[k][j]-NC1.pkj[k][j])*NC1.freq;
-			NC1.pkj[k][j]+=NC1.vkj[k][j];
+			new_NC1.vkj[k][j]+=(new_NC2.pkj[k][j]-new_NC2.pkj[k][j])*new_NC1.freq;
+			new_NC1.pkj[k][j]+=new_NC1.vkj[k][j];
 			//NC1.freq=(best_NC.freq);
 		}
 	}
-	NC1=control_simulation(NC1);
-	if(isnan(NC1.E)) {
-		NC1.E=DBL_MAX;
-	}
+    
+	// NC1=control_simulation(NC1);
+	// if(isnan(NC1.E)) {
+	// 	NC1.E=DBL_MAX;
+	// }
 	
     //良いコウモリ
 	//if(0.01> NC1.pulse) {
-	if(rand()/RAND_MAX > NC1.pulse) {		
-		new_NC1=init_NC1();
+	if(rand()/RAND_MAX > new_NC1.pulse) {		
+		// new_NC1=init_NC1();
 		new_NC1.loudness=Loud_0*pow(Loud_r,0.1*(double)generation);	
 		new_NC1.pulse=Pulse_0*(1.0-exp(-Pulse_r*(double)Pulse_r1*(double)generation));
+		//中間層
 		for(j=0;j<J;j++) {
 			for(i=0;i<I;i++) {
-				new_NC1.pji[j][i]=NC2.pji[j][i]+(rand()/(RAND_MAX/2.0)-1)*aveLoud;
-				new_NC1.vji[j][i]=NC2.vji[j][i];
+				new_NC1.pji[j][i]=new_NC2.pji[j][i]+(rand()/(RAND_MAX/2.0)-1)*aveLoud;
+				new_NC1.vji[j][i]=new_NC2.vji[j][i];
 				//new_NC1.freq=NC2.freq;
 				//new_NC1.pulse=NC2.pulse;
 				//new_NC1.loudness=(NC2.loudness);
 			}
 		}
+		//出力層
 		for(k=0;k<K;k++) {
 			for(j=0;j<J;j++) {
-				new_NC1.pkj[k][j]=NC2.pkj[k][j]+(rand()/(RAND_MAX/2.0)-1)*aveLoud;
-				new_NC1.vji[k][j]=NC2.vji[k][j];
+				new_NC1.pkj[k][j]=new_NC2.pkj[k][j]+(rand()/(RAND_MAX/2.0)-1)*aveLoud;
+				new_NC1.vji[k][j]=new_NC2.vji[k][j];
 				//new_NC1.freq=NC2.freq;
 				//new_NC1.pulse=NC2.pulse;
 				//new_NC1.loudness=(NC2.loudness);
 			}
 		}
-		new_NC1=control_simulation(new_NC1);
-		if(isnan(new_NC1.E)) {
-			new_NC1.E=DBL_MAX;
-		}
+		// new_NC1=control_simulation(new_NC1);
+		// if(isnan(new_NC1.E)) {
+		// 	new_NC1.E=DBL_MAX;
+		// }
 	} else {
-		new_NC1.E=DBL_MAX;
-		new_NC1.Ey=DBL_MAX;
-		new_NC1.Et=DBL_MAX;
+		// new_NC1.E=DBL_MAX;
+		// new_NC1.Ey=DBL_MAX;
+		// new_NC1.Et=DBL_MAX;
 	}
-	new_NC2=init_NC1();
+	// new_NC2=init_NC1();
 	new_NC2.loudness=Loud_0*pow(Loud_r,0.1*(double)generation);	
 	new_NC2.pulse=Pulse_0*(1.0-exp(-Pulse_r*Pulse_r1*(double)generation));
-	new_NC2=control_simulation(new_NC2);
+	// new_NC2=control_simulation(new_NC2);
 	if(isnan(new_NC2.E)) {
-		new_NC2.E=DBL_MAX;
+		new_NC2.E=TMP_MAX;
 	}
 	
     //パルス率を更新
-	if(((new_NC1.E<NC1.E) || (new_NC2.E<NC1.E)) && ((rand()/RAND_MAX)<NC1.loudness)) {
-			if(new_NC1.E<new_NC2.E) {
-				tmp_NC=NC1;
-			NC1=new_NC1;
-			new_NC1=tmp_NC;
-		} else {
-			tmp_NC=NC1;
-			NC1=new_NC2;
-			new_NC2=tmp_NC;
-		}
-		//NC1.pulse=Pulse_0*(1.0-exp(-Pulse_r*(double)generation));
-		//NC1.loudness*=Loud_r;
-	}
-	return NC1;
+	// if(((new_NC1.E<NC1.E) || (new_NC2.E<NC1.E)) && ((rand()/RAND_MAX)<NC1.loudness)) {
+	// 		if(new_NC1.E<new_NC2.E) {
+	// 			tmp_NC=NC1;
+	// 		NC1=new_NC1;
+	// 		new_NC1=tmp_NC;
+	// 	} else {
+	// 		tmp_NC=NC1;
+	// 		NC1=new_NC2;
+	// 		new_NC2=tmp_NC;
+	// 	}
+	// 	//NC1.pulse=Pulse_0*(1.0-exp(-Pulse_r*(double)generation));
+	// 	//NC1.loudness*=Loud_r;
+	// }
+	return new_NC1;
 }

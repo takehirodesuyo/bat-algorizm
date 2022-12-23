@@ -8,7 +8,7 @@
 #define Leng 1.0
 #define R   1.0
 #define Ht  1.0
-#define K   1.0
+// #define K   1.0
 
 // inital angle
 #define THETA 90.0*PI/180.0

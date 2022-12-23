@@ -1,3 +1,5 @@
+//コンソールに出力関数 *でポインタ FILE *fp1, *fpw;で参照
+
 #include<stdio.h>
 #include<stdlib.h>
 

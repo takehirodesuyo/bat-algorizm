@@ -1,11 +1,5 @@
-/* ########################################
-   ### Rotary crane system 
-   ### NC optimized by Cuckoo Search(CS) method.
-   ### Evolution simulation in 1 trial.
-   ### Compile: gcc -O2 -o crane-cs01 crane-cs01.c myfopen.c 
-   crane_3dmodel.C neural_network.c cuckoo_search.c crane_control.c -lm
-   ### programmed by nakazono. [2021/09/17]
-   ######################################## */
+//main関数　コンソールに表示
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -26,7 +20,7 @@ extern INDIVIDUAL rand_w(void);
 // selection (ranking method)(cuckoo_search.c)
 extern void sort(INDIVIDUAL kotai[]);
 
-extern void bat_algorithm(INDIVIDUAL BAT NC1, BAT NC2, BAT best_NC, int generation, double aveLoud,float Pulse_r1);
+extern void bat_algorithm(INDIVIDUAL NC1, INDIVIDUAL NC2, INDIVIDUAL best_NC, int generation, double aveLoud,float Pulse_r1);
 
 //levy flight(cuckoo_search.c)
 extern INDIVIDUAL levy_flight(INDIVIDUAL CS_r1, float alpha, float beta);
@@ -40,7 +34,7 @@ int main(void)
   int seed, iteration, ind, i, j, k, r1, r2;
   float alpha=0.1, beta=1.5;
   NEURON_w NCw;
-  INDIVIDUAL CS[IND_SIZE], new_CS, tmp;
+  INDIVIDUAL CS[IND_SIZE], new_BA, tmp;
 
   fp1=myfopen("e-cuckoo.dat","w");
   fpw=myfopen("w-cuckoo.dat","w");
@@ -49,21 +43,18 @@ int main(void)
   printf("seed=%d\n",seed);
   srand48(seed);
   
- //Evolution simulation start
- //initial connection weights
     for(ind=0;ind<IND_SIZE;ind++) {
       //init weights　ここでNS全体になる
       CS[ind]=rand_w();
       NCw=convert_weight(CS[ind]);
       // Control start
       CS[ind].E=crane_control_simulation(NCw);
-  } // end individual
-  // selection (ranking method)
-  for(iteration=1;iteration<ITERATION;iteration++) {
+    } 
+    for(iteration=1;iteration<ITERATION;iteration++) {
+      new_BA = bat_algorithm(int generation, double aveLoud, float Pulse_r1);
+      NCw = convert_weight(new_BA);
+      new_BA.E = crane_control_simulation(NCw);
 
-
-
-    //Sceduled CS ここからアルゴリズムを描く
     sort(CS);
     fprintf(fp1, "%.12f\n", CS[0].E);
 
@@ -73,12 +64,12 @@ int main(void)
     //save conection weights
     for(j=0;j<J_MAX;j++)
       for(i=0;i<I_MAX;i++)
-        fprintf(fpw, "%lf\n", CS[0].whid[i][j]);
+        fprintf(fpw, "%lf\n", CS[0].pji[J][I]);
     for(k=0;k<K_MAX;k++)
       for(j=0;j<J_MAX;j++)
-        fprintf(fpw, "%lf\n", CS[0].wout[j][k]);
+        fprintf(fpw, "%lf\n", CS[0].pkj[K][J]);
     fclose(fp1);
     fclose(fpw);
 
     return 0;
-  }//end main
+  }
