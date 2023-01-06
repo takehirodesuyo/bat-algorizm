@@ -1,5 +1,3 @@
-//main関数　コンソールに表示
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,7 +14,7 @@ extern INDIVIDUAL rand_w(void);
 
 extern void sort(INDIVIDUAL kotai[]);
 
-extern void bat_algorithm(int generation, double aveLoud, float Pulse_r1);
+extern INDIVIDUAL bat_algorithm(int generation, double aveLoud, float Pulse_r1);
 
 extern INDIVIDUAL levy_flight(INDIVIDUAL CS_r1, float alpha, float beta);
 
@@ -35,7 +33,7 @@ int main(void)
   fp1=myfopen("e-cuckoo.dat","w");
   fpw=myfopen("w-cuckoo.dat","w");
 
-  seed=8000;
+  seed=100;
   printf("seed=%d\n",seed);
   srand48(seed);
   
@@ -46,15 +44,18 @@ int main(void)
       // Control start
       CS[ind].E=crane_control_simulation(NCw);
     }
-    // aveLoud=0.0;
-		// 	Pulse_r1=0.9;
-			//*-----個体数の繰り返し-----*//
-			// for(p=0;p<P;p++) {
-			// 	aveLoud+=NCw[p].loudness;
-			// }
-			// aveLoud/=P;
+   
+		//*-----個体数の繰り返し-----*//
+    aveLoud=3.0;
+		Pulse_r1=1.9;
+		for(p=0;p<P;p++) {
+			aveLoud+=NCw[p].loudness;
+		}
+		// 	aveLoud/=P;
     //世代 10000
     for(iteration=1;iteration<ITERATION;iteration++) {
+      // aveLoud=0.7;
+		  // Pulse_r1=0.9;
       new_BA = bat_algorithm(iteration, aveLoud, Pulse_r1);
       NCw = convert_weight(new_BA);
       new_BA.E = crane_control_simulation(NCw);
@@ -62,10 +63,10 @@ int main(void)
     sort(CS);
     fprintf(fp1, "%.12f\n", CS[0].E);
 
-    //表示している部分コンソールに
-    printf("iteration=%d E[0]=%.12f\n", iteration, CS[0].E);
-    }//end iteration
-    //save conection weights
+    //コンソールに表示
+    printf("iteration=%d E[best]=%.12f\n", iteration, CS[0].E);
+    }
+
     for(j=0;j<J_MAX;j++)
       for(i=0;i<I_MAX;i++)
         fprintf(fpw, "%lf\n", CS[0].pji[J][I]);

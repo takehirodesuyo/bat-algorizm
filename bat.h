@@ -1,4 +1,4 @@
-#define ITERATION 10000
+#define ITERATION 10
 #define ABA_RATE 0.1      
 #define IND_SIZE 100    
 #define ALPHA2 0.1        
@@ -31,6 +31,8 @@
 #define Pulse_0 0.5
 #define Pulse_r 1.0
 #define Best_rate 0.1
+// #define aveLoud 0.0
+// #define Pulse_r1 0.9
 
 // individual of cuckoo(NC)　INDIVIDUALという名前の構造体ここに必要な値変数を描く
 // 入力層中間層出力層があって　入力層に重みをかけて中間層に行く　中間層に出力層に重みをかけて処理をする

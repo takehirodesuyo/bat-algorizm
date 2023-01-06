@@ -1,5 +1,3 @@
-// すべての関数を定義
-
 #include<stdio.h> 
 #include<stdlib.h> 
 #include<math.h>
@@ -113,7 +111,6 @@ INDIVIDUAL bat_algorithm(int generation, double aveLoud, float Pulse_r1)
 	INDIVIDUAL new_NC1, new_NC2, tmp_NC;
     //最良のコウモリ
 	new_NC1.freq=(Freq_Max-Freq_Min)*rand()/RAND_MAX;
-	printf("aaa");
     //入力層から中間層
 	for(j=0;j<J;j++) {
 		for(i=0;i<I;i++) {
