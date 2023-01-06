@@ -48,9 +48,9 @@ int main(void)
 		//*-----個体数の繰り返し-----*//
     aveLoud=3.0;
 		Pulse_r1=1.9;
-		for(p=0;p<P;p++) {
-			aveLoud+=NCw[p].loudness;
-		}
+		// for(p=0;p<P;p++) {
+		// 	aveLoud+=NCw[p].loudness;
+		// }
 		// 	aveLoud/=P;
     //世代 10000
     for(iteration=1;iteration<ITERATION;iteration++) {

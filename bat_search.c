@@ -42,7 +42,7 @@ INDIVIDUAL rand_w(void)
                 return init;
 }
 
-//selection(ranking method) kakkoのアルゴリズム
+//selection(ranking method)
 void sort(INDIVIDUAL kotai[IND_SIZE])
 {
           int i,j,k,o,m;
@@ -57,35 +57,6 @@ void sort(INDIVIDUAL kotai[IND_SIZE])
                   }
               }
           }
-}
-
-//levy flight
-INDIVIDUAL levy_flight(INDIVIDUAL CS_r1,float alpha,float beta)
-{
-    int i,j,k;
-    float u,v,s;
-    INDIVIDUAL new_CS;
-    alpha=ALPHA2;
-
-    for(j=0;j<J_MAX;j++){
-        for(i=0;i<I_MAX;i++){
-            u = rand_n()*sigma(beta);
-            v = rand_n();
-            s = u / pow(fabs(v),1/beta);
-
-            new_CS.pji[J][I]=CS_r1.pji[J][I]+alpha*s;
-        }
-    }
-    for(k=0;k<K_MAX;k++){
-        for(j=0;j<J_MAX;j++){
-            u = rand_n()*sigma(beta);
-            v = rand_n();
-            s = u / pow(fabs(v),1/beta);
-
-            new_CS.pkj[K][J]=CS_r1.pkj[K][J]+alpha*s;
-        }
-    }
-    return new_CS;
 }
 
 //convert CS into NC weights
