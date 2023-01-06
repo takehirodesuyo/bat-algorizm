@@ -8,31 +8,27 @@
 #include "nn.h"
 #include "bat.h"
 
-//my file structure(myfopen.c)
 extern FILE *myfopen(char *fname, char *mode);
 
-//control simulation(crane_control.c)
 extern float crane_control_simulation(NEURON_w NCw);
 
-//initial weights(cuckoo_search.c)
 extern INDIVIDUAL rand_w(void);
 
-// selection (ranking method)(cuckoo_search.c)
 extern void sort(INDIVIDUAL kotai[]);
 
-extern void bat_algorithm(INDIVIDUAL NC1, INDIVIDUAL NC2, INDIVIDUAL best_NC, int generation, double aveLoud,float Pulse_r1);
+extern void bat_algorithm(int generation, double aveLoud, float Pulse_r1);
 
-//levy flight(cuckoo_search.c)
 extern INDIVIDUAL levy_flight(INDIVIDUAL CS_r1, float alpha, float beta);
 
-// convert CS into NC weights(cuckoo_search.c)
 extern NEURON_w convert_weight(INDIVIDUAL CS);
 
 int main(void)
 {
   FILE *fp1, *fpw;
-  int seed, iteration, ind, i, j, k, r1, r2;
+  int seed, iteration, ind, i, j, k, r1, r2 ,p;
   float alpha=0.1, beta=1.5;
+  double aveLoud;
+  float Pulse_r1;
   NEURON_w NCw;
   INDIVIDUAL CS[IND_SIZE], new_BA, tmp;
 
@@ -49,9 +45,17 @@ int main(void)
       NCw=convert_weight(CS[ind]);
       // Control start
       CS[ind].E=crane_control_simulation(NCw);
-    } 
+    }
+    // aveLoud=0.0;
+		// 	Pulse_r1=0.9;
+			//*-----個体数の繰り返し-----*//
+			// for(p=0;p<P;p++) {
+			// 	aveLoud+=NCw[p].loudness;
+			// }
+			// aveLoud/=P;
+    //世代 10000
     for(iteration=1;iteration<ITERATION;iteration++) {
-      new_BA = bat_algorithm(int generation, double aveLoud, float Pulse_r1);
+      new_BA = bat_algorithm(iteration, aveLoud, Pulse_r1);
       NCw = convert_weight(new_BA);
       new_BA.E = crane_control_simulation(NCw);
 

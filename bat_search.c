@@ -107,12 +107,13 @@ NEURON_w convert_weight(INDIVIDUAL CS)
 }
 
 //最良,良い,ランダムの方向に移動するコウモリ
-INDIVIDUAL bat_algorithm(int generation, double aveLoud,float Pulse_r1)
+INDIVIDUAL bat_algorithm(int generation, double aveLoud, float Pulse_r1)
 {
 	int i, j, k;
 	INDIVIDUAL new_NC1, new_NC2, tmp_NC;
     //最良のコウモリ
 	new_NC1.freq=(Freq_Max-Freq_Min)*rand()/RAND_MAX;
+	printf("aaa");
     //入力層から中間層
 	for(j=0;j<J;j++) {
 		for(i=0;i<I;i++) {
